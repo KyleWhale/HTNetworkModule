@@ -23,6 +23,7 @@
 #import "HTFileManager.h"
 #import "HTKitCreate.h"
 #import "LKFPrivateFunction.h"
+#import "ZQAccountModel.h"
 
 FOUNDATION_EXPORT double HTBaseModuleVersionNumber;
 FOUNDATION_EXPORT const unsigned char HTBaseModuleVersionString[];

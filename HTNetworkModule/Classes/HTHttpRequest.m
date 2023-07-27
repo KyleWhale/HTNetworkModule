@@ -148,7 +148,12 @@
     // 供应商网络编号
     NSString *networkCode = carrier.mobileNetworkCode;
     [params setValue:[NSString stringWithFormat:@"%@%@", countryCode, networkCode] forKey:AsciiString(@"imsi")];
-    [params setObject:[HTCommonConfiguration lgjeropj_shared].BLOCK_uidBlock() forKey:AsciiString(@"uid")];
+    ZQAccountModel *var_model = [HTCommonConfiguration lgjeropj_shared].BLOCK_userBlock();
+    if (var_model && [var_model.var_userid integerValue] > 0) {
+        [params setObject:var_model.var_userid forKey:AsciiString(@"uid")];
+    } else {
+        [params setObject:@"0" forKey:AsciiString(@"uid")];
+    }
     /*
      测试
      [params setValue:@"4.0" forKey:AsciiString(@"version")];
@@ -187,10 +192,14 @@
     [dict setValue:[netKeys componentsJoinedByString:@","] forKey:AsciiString(@"data")];
     NSString *fopentimeStr = [HTConfig ht_installTime];
     [dict setValue:(fopentimeStr ?:@"0") forKey:@"install_len"];
-    NSString *var_uid = [HTCommonConfiguration lgjeropj_shared].BLOCK_uidBlock();
-    [dict setObject:@(var_uid.integerValue > 0) forKey:AsciiString(@"login")];
-    [dict setObject:var_uid forKey:@"userid"];
-
+    ZQAccountModel *var_model = [HTCommonConfiguration lgjeropj_shared].BLOCK_userBlock();
+    if (var_model && [var_model.var_userid integerValue] > 0) {
+        [dict setObject:var_model.var_userid forKey:@"userid"];
+        [dict setObject:@(1) forKey:AsciiString(@"login")];
+    } else {
+        [dict setObject:@"0" forKey:@"userid"];
+        [dict setObject:@(0) forKey:AsciiString(@"login")];
+    }
     return dict;
 }
 - (NSMutableDictionary *)lgjeropj_publicParameters {
